@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Chessboard from 'chessboardjsx' ;
 import * as Chess from 'chess.js';
+import logInfo from '../../utils/logger.js'
 
 class ChessBoard extends React.Component {
   constructor (props) {
@@ -37,6 +38,7 @@ class ChessBoard extends React.Component {
    * @returns void
    */
   onDrop = ({ sourceSquare, targetSquare }) => {
+    logInfo('ChessBoard :: onDrop', {sourceSquare, targetSquare});
     // see if the move is legal
     let move = this.game.move({
       from: sourceSquare,
@@ -59,6 +61,8 @@ class ChessBoard extends React.Component {
    * @returns void
    */
   makeRandomMove = () => {
+    logInfo('ChessBoard :: makeRandomMove');
+
     let possibleMoves = this.game.moves();
     if (this.checkIfGameOver()) {
       return;
