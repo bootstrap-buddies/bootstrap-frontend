@@ -2,6 +2,7 @@ import * as React from 'react';
 import Chessboard from 'chessboardjsx' ;
 import * as Chess from 'chess.js';
 import logInfo from '../../utils/logger.js'
+import './Chessboard.css';
 
 class ChessBoard extends React.Component {
   constructor (props) {
@@ -14,8 +15,8 @@ class ChessBoard extends React.Component {
 
   render() {
     return(
-      <div>
-        <Chessboard 
+      <div className='chessboard-container'>
+        <Chessboard className='chessboard'
           position={this.state.fen}
           onDrop={this.onDrop}>
         </Chessboard>
