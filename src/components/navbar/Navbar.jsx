@@ -30,6 +30,8 @@ function Navbar() {
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
             <img className='navbar-logo-image' src='Dats_Chess__1_-removebg-preview.png'/>
+            {/* TRVL
+            <i class='fab fa-typo3' /> */}
           </Link>
           <div className='menu-icon' onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -70,6 +72,7 @@ function Navbar() {
             </li>
           </ul>
           {button && <Button buttonStyle='btn--outline'>SIGN UP</Button>} 
+          {button && <Button buttonStyle='btn--outline'>SIGN IN</Button>} 
         </div>
       </nav>
     </>

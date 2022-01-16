@@ -28,6 +28,10 @@
     display: flex;
     align-items: center;
   }
+
+  .navbar-logo-image {
+    height: 50px;
+  }
   
   .fa-typo3 {
     margin-left: 0.5rem;
@@ -46,7 +50,7 @@
   }
   
   .nav-item {
-    height: 80px;
+    height: 37px;
   }
   
   .nav-links {
@@ -118,11 +122,6 @@
       top: 0;
       left: 0;
       transform: translate(25%, 50%);
-    }
-
-    .navbar-logo-image {
-      width: 200;
-      height: 50px;
     }
   
     .menu-icon {
