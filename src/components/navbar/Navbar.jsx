@@ -29,7 +29,7 @@ function Navbar() {
       <nav className='navbar'>
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-            <img className='navbar-logo-image' src='Dats_Chess__1_-removebg-preview.png'/>
+            <img className='navbar-logo-image' alt="Dats Chess" src='Dats_Chess__1_-removebg-preview.png'/>
             {/* TRVL
             <i class='fab fa-typo3' /> */}
           </Link>
@@ -43,15 +43,11 @@ function Navbar() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link
-                to='/services'
-                className='nav-links'
-                onClick={closeMobileMenu}
-              >
-                Services
-              </Link>
+              <a href="https://github.com/bootstrap-buddies" className='nav-links' onClick={closeMobileMenu} rel="noreferrer">
+                GitHub
+              </a>
             </li>
-            <li className='nav-item'>
+            {/* <li className='nav-item'>
               <Link
                 to='/products'
                 className='nav-links'
@@ -59,7 +55,7 @@ function Navbar() {
               >
                 Products
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link
