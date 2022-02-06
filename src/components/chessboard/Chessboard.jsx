@@ -13,6 +13,16 @@ class ChessBoard extends React.Component {
     }
   };
 
+  sendMessage = (msg) => {
+    const {websocket} = this.props // websocket instance passed as props to the child component.
+
+    try {
+        websocket.send(msg) //send data to the server
+    } catch (error) {
+        console.log(error) // catch error
+    }
+  }
+
   render() {
     return(
       <div className='chessboard-container'>
@@ -52,6 +62,12 @@ class ChessBoard extends React.Component {
       fen: this.game.fen(),
       history: this.game.history({ verbose: true })
     }));
+
+    let msg = JSON.stringify({
+      sourceSquare: sourceSquare,
+      targetSquare: targetSquare
+    })
+    this.sendMessage(msg)
 
     // By Default, let the oponent make a random move until we integrate with the engine
     this.makeRandomMove();
