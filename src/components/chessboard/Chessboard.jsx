@@ -5,11 +5,13 @@ import logInfo from '../../utils/logger.js'
 import './Chessboard.css';
 
 class ChessBoard extends React.Component {
+
+  engineHistory = [];
   constructor (props) {
     super( props );
     this.state = {
       fen: "",
-      history: []
+      history: [],
     }
   };
 
@@ -24,6 +26,20 @@ class ChessBoard extends React.Component {
   }
 
   render() {
+    const {websocket} = this.props
+    if (websocket != null) {
+      websocket.onmessage = evt => {
+        // listen to data sent from the websocket server
+        const message = JSON.parse(evt.data)
+        this.setState({dataFromServer: message})
+        
+        console.log(message)
+        this.engineHistory.push(message.sourceSquare + message.targetSquare)
+        this.game.move({ from: message.sourceSquare, to: message.targetSquare });
+        this.setState({ fen: this.game.fen() });
+    }
+  }
+
     return(
       <div className='chessboard-container'>
         <Chessboard className='chessboard'
@@ -63,14 +79,17 @@ class ChessBoard extends React.Component {
       history: this.game.history({ verbose: true })
     }));
 
+    this.engineHistory.push(sourceSquare + targetSquare)
     let msg = JSON.stringify({
       sourceSquare: sourceSquare,
-      targetSquare: targetSquare
+      targetSquare: targetSquare,
+      history: this.engineHistory
     })
+
     this.sendMessage(msg)
 
     // By Default, let the oponent make a random move until we integrate with the engine
-    this.makeRandomMove();
+    // this.makeRandomMove();
   };
 
   /**
