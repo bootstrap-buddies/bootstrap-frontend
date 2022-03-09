@@ -5,15 +5,41 @@ import logInfo from '../../utils/logger.js'
 import './Chessboard.css';
 
 class ChessBoard extends React.Component {
+
+  engineHistory = [];
   constructor (props) {
     super( props );
     this.state = {
       fen: "",
-      history: []
+      history: [],
     }
   };
 
+  sendMessage = (msg) => {
+    const {websocket} = this.props // websocket instance passed as props to the child component.
+
+    try {
+        websocket.send(msg) //send data to the server
+    } catch (error) {
+        console.log(error) // catch error
+    }
+  }
+
   render() {
+    const {websocket} = this.props
+    if (websocket != null) {
+      websocket.onmessage = evt => {
+        // listen to data sent from the websocket server
+        const message = JSON.parse(evt.data)
+        this.setState({dataFromServer: message})
+        
+        console.log(message)
+        this.engineHistory.push(message.sourceSquare + message.targetSquare)
+        this.game.move({ from: message.sourceSquare, to: message.targetSquare });
+        this.setState({ fen: this.game.fen() });
+    }
+  }
+
     return(
       <div className='chessboard-container'>
         <Chessboard className='chessboard'
@@ -53,8 +79,17 @@ class ChessBoard extends React.Component {
       history: this.game.history({ verbose: true })
     }));
 
+    this.engineHistory.push(sourceSquare + targetSquare)
+    let msg = JSON.stringify({
+      sourceSquare: sourceSquare,
+      targetSquare: targetSquare,
+      history: this.engineHistory
+    })
+
+    this.sendMessage(msg)
+
     // By Default, let the oponent make a random move until we integrate with the engine
-    this.makeRandomMove();
+    // this.makeRandomMove();
   };
 
   /**

@@ -1,10 +1,10 @@
 import React from 'react';
-import ChessBoard from '../chessboard/Chessboard';
+import Socket from '../websocket/Socket.jsx';
 
 function Home() {
   return (
     <>
-      <ChessBoard/>
+      <Socket/>
     </>
   );
 }
