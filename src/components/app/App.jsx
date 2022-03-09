@@ -1,12 +1,17 @@
 import '../../stylesheets/App.css';
-import ChessBoard from '../ChessBoard/ChessBoard';
+import Home from '../pages/Home'
+import Navbar from '../navbar/Navbar';
+import { Routes ,Route, BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      <ChessBoard/> 
-      </header>
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+          <Route path='/' element={<Home/>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
