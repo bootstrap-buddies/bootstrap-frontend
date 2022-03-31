@@ -66,20 +66,35 @@ class ChessBoard extends React.Component {
    */
   onDrop = ({ sourceSquare, targetSquare }) => {
     logInfo('ChessBoard :: onDrop', {sourceSquare, targetSquare});
-    // see if the move is legal
-    let move = this.game.move({
-      from: sourceSquare,
-      to: targetSquare
-    });
+
+    let move = {}
+    let engineMoveString = "";
+    if (this.checkIfMoveIsPromotion(sourceSquare, targetSquare)) {
+      move = this.game.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion:'q'
+      });
+      engineMoveString = sourceSquare + targetSquare + 'q';
+    } else {
+          // see if the move is legal
+      move = this.game.move({
+        from: sourceSquare,
+        to: targetSquare
+      });
+      engineMoveString = sourceSquare + targetSquare;
+    }
 
     // illegal move
     if (move === null) return;
+
+    this.engineHistory.push(engineMoveString);
+
     this.setState(({ history }) => ({
       fen: this.game.fen(),
       history: this.game.history({ verbose: true })
     }));
 
-    this.engineHistory.push(sourceSquare + targetSquare)
     let msg = JSON.stringify({
       sourceSquare: sourceSquare,
       targetSquare: targetSquare,
@@ -107,6 +122,16 @@ class ChessBoard extends React.Component {
     let randomIndex = Math.floor(Math.random() * possibleMoves.length);
     this.game.move(possibleMoves[randomIndex]);
     this.setState({ fen: this.game.fen() });
+  }
+
+  checkIfMoveIsPromotion = (sourceSquare, targetSquare) => {
+    let pieceToMove = this.game.get(sourceSquare);
+    if (pieceToMove != null && pieceToMove.type === 'p' &&
+       ((sourceSquare[1] === '7' && targetSquare[1] === '8') ||
+       (sourceSquare[1] === '2' && targetSquare[1] === '1'))) {
+         return true;
+       }
+    return false;
   }
 
   /**
